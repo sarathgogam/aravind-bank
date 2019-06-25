@@ -1,0 +1,143 @@
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Scanner;
+import java.util.Collection;
+
+
+public class Admin {
+	private String userName="aravind";
+	private String password="123$";
+	  
+	public static HashMap<String,Client> clientList=new HashMap<String,Client>();
+	
+	
+		public void addClient()
+		{	
+			
+			System.out.println("enter client details");
+			Scanner sc=new Scanner(System.in);
+			System.out.println("enter client account number");
+			String accountNumber=sc.next();
+			System.out.println("enter client username");
+			String userName=sc.next();
+			System.out.println("enter client password");
+			String passWord=sc.next();
+			System.out.println("enter client default balance");
+			double balance=sc.nextDouble();
+	 
+			Client c = new Client(accountNumber,userName,passWord,balance);
+		clientList.put(accountNumber, c);
+				
+		}
+		public void removeClient(String accno)
+		{
+			Admin.clientList.remove(accno);
+		}
+		public void listUser()
+		{
+		//	System.out.println("==> For Loop Example.");
+//			for (int i = 1; i < clientList.size(); i++) {
+//				System.out.println(clientList.get(i));
+//			}
+			System.out.println( " account details ");
+			for (Entry<String, Client> entry : clientList.entrySet())  
+			{
+	             entry.getKey() ;
+	             System.out.println( "======================================");
+	            		 
+	            		 System.out.println( "account number = " + entry.getValue().getAccountNumber());
+	            				 System.out.println(    "name = " +entry.getValue().getUserName());
+	            						 System.out.println(     "balance = "+entry.getValue().getBalance());
+	            								 System.out.println(  "password = "+entry.getValue().getPassWord());
+			}
+			
+			   //Iterator<Entry<String, Client>> trav=clientList.entrySet().iterator();
+//			   while(trav.hasNext())
+//			   {
+//			      Map.Entry record=(Map.Entry)trav.next();  //will give next (Key, Value) pair
+//			 
+//			      System.out.println(record.getKey());
+//			      System.out.println(((Client)record.getValue()).);
+//			   }
+		}
+		public void login(String uname,String pword)
+		{
+			if((uname.equals(userName)) && (pword.equals(password)))
+			{
+				System.out.println("you are Successfullly logged in as Adminstrator");			
+				int ch;
+				do{
+				System.out.println("select your option");
+				System.out.println("1.list clients");
+				System.out.println("2.Add client");
+				System.out.println("3.remove client");
+				Scanner sc=new Scanner(System.in);
+				int choice=sc.nextInt();
+				
+				//sc.close();
+				switch(choice){
+				case 1: listUser();
+				System.out.println(clientList);
+				        break;
+				case 2: 
+				        addClient();
+						break;
+				case 3: 
+				         System.out.println("enter account number to remove");
+				         String num=sc.next();
+				         removeClient(num);
+						break;
+				default:System.out.println("you selected wrong option");		
+				}
+				System.out.println("do want to continue 1->yes  2->no");
+				 ch =sc.nextInt();
+				}while(ch ==1);
+			}
+			else
+			{
+				System.out.println("please check your credentials");
+			}
+		}
+			
+		
+			
+		
+		
+		public static void main(String args[])
+		{
+			
+			Admin  a1=new Admin();
+			Scanner sc=new Scanner(System.in);
+			int option;
+			int ch;
+			//sc.close();
+			
+			do{
+				System.out.println("do u want to login as Adimn or client");
+				System.out.println("1.Admin");
+				System.out.println("2.client");
+				System.out.println("enter your option");
+			option=sc.nextInt(); 
+			
+			switch(option){
+			case 1:System.out.println("enter admin username and Password");
+				   String uName=sc.next();
+				   String pword=sc.next();
+				   a1.login(uName,pword); 
+				   break;
+			case 2:System.out.println("enter client Account Number and Password");
+			       String accNum=sc.next();
+			       String cpword=sc.next();
+			      Client.login(accNum,cpword); 
+			       break;
+			}
+			System.out.println("do u want login again press 1->to continue  2->no ");
+			ch=sc.nextInt();
+			}while(ch==1);
+			
+		}
+
+}
